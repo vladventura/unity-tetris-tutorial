@@ -22,8 +22,8 @@ This is a small table that details my plans to make this fantastic project even 
 
 | Idea | Plan of action | Why | Priority | Implemented |
 | ---- | -------------- | --- |   :-:    |     :-:     |
-| Better controls | Change the method that's used to get the user's input. Maybe instead of GetKeyDown, try GetKey | Without this, when we implement the difficulty changes, the game will be pretty much unplayable because of how slow the pieces will move. | 🔴 | ❌ |
-| Show the next piece | Either make another tilemap and display them there, or take pictures of each piece and show them using some UI element. | This is a standard thing to have in these kinds of games | 🔴 | ❌ |
+| Better controls | Change the method that's used to get the user's input. Maybe instead of GetKeyDown, try GetKey | Without this, when we implement the difficulty changes, the game will be pretty much unplayable because of how slow the pieces will move. | 🔴 | ✅ |
+| Show the next piece | Either make another tilemap and display them there, or take pictures of each piece and show them using some UI element. | This is a standard thing to have in these kinds of games | 🔴 | 🔧 |
 | Scoring system | Use the UI elements in Unity to display a scoring system, and generate a score metric during gameplay | Adds replayability | 🟡 | ❌ |
 | Difficulty System | While the game continues, the difficulty should increase little by little. The piece drop speed should increment as well. | Adds challenge to the game. As it is, the difficulty never really increases. | 🟡 | ❌|
 | Save a piece for later | Maybe save the current piece into a variable | Another standard thing | 🟢 | ❌ |
