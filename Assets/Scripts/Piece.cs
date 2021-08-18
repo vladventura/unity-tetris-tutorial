@@ -11,9 +11,10 @@ public class Piece : MonoBehaviour
     public int rotationIndex { get; private set; }
     public float stepDelay = 1f;
     public float lockDelay = 0.5f;
-
+    public float moveDelay = 0.1f;
     private float stepTime;
     private float lockTime;
+    private float moveTime;
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
         _board = board;
@@ -21,6 +22,7 @@ public class Piece : MonoBehaviour
         this.position = position;
         this.rotationIndex = 0;
         this.stepTime = Time.time + stepDelay;
+        this.moveTime = Time.time + moveDelay;
         this.lockTime = 0f;
         if (this.cells == null)
         {
@@ -37,22 +39,14 @@ public class Piece : MonoBehaviour
     {
         this._board.ClearOnTilemap(this);
         this.lockTime += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Move(Vector2Int.left);
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            Move(Vector2Int.right);
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Move(Vector2Int.down);
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            HardDrop();
-        }
+        RotatingMovement();
+        DropMovement();
+        if ((Time.time > this.moveTime)) SidewaysMovement();
+        if (Time.time > this.stepTime) Step();
+        this._board.SetOnTilemap(this);
+    }
+    private void RotatingMovement()
+    {
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Rotate(-1);
@@ -61,17 +55,40 @@ public class Piece : MonoBehaviour
         {
             Rotate(1);
         }
-        if (Time.time > this.stepTime) {
-            Step();
+    }
+
+    private void DropMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            HardDrop();
         }
-        this._board.SetOnTilemap(this);
+    }
+
+    private void SidewaysMovement()
+    {
+        this.moveTime = Time.time + this.moveDelay;
+        if (Input.GetKey(KeyCode.S))
+        {
+            Move(Vector2Int.down);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            Move(Vector2Int.left);
+
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            Move(Vector2Int.right);
+        }
     }
 
     private void Step()
     {
         this.stepTime = Time.time + this.stepDelay;
         Move(Vector2Int.down);
-        if (this.lockTime >= this.lockDelay) {
+        if (this.lockTime >= this.lockDelay)
+        {
             Lock();
         }
     }
@@ -89,7 +106,8 @@ public class Piece : MonoBehaviour
         this.rotationIndex = Wrap(this.rotationIndex + direction, 0, 4);
         ApplyRotationMatrix(direction);
 
-        if (!TestWallKicks(rotationIndex, direction)) {
+        if (!TestWallKicks(rotationIndex, direction))
+        {
             this.rotationIndex = originalRotation;
             ApplyRotationMatrix(-direction);
         }
@@ -162,7 +180,8 @@ public class Piece : MonoBehaviour
         newPos.x += direction.x;
         newPos.y += direction.y;
         bool valid = this._board.IsValidPosition(this, newPos);
-        if (valid) {
+        if (valid)
+        {
             this.position = newPos;
             this.lockTime = 0f;
         }
