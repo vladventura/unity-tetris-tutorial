@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 289196784}
   - component: {fileID: 289196783}
   - component: {fileID: 289196782}
+  - component: {fileID: 289196785}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -153,6 +154,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d403dbf28717beb40b44e0dc72f002ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tetrominos:
+  - tetromino: 0
+    tile: {fileID: 11400000, guid: cfe1b15a9fc31b64f899f9123ea3759d, type: 2}
+  - tetromino: 1
+    tile: {fileID: 11400000, guid: 68dea74233aaa834886d1af455ab1836, type: 2}
+  - tetromino: 2
+    tile: {fileID: 11400000, guid: 89ca980e17fa1184c807a2c77ced9ea7, type: 2}
+  - tetromino: 3
+    tile: {fileID: 11400000, guid: 167cec7cd26503645becb8f850b84d57, type: 2}
+  - tetromino: 4
+    tile: {fileID: 11400000, guid: 5f76aaccb81a2ef4b9853f0cf5308cd9, type: 2}
+  - tetromino: 5
+    tile: {fileID: 11400000, guid: 77b4e84ed39f8ba49bcc436ad5f4aef8, type: 2}
+  - tetromino: 6
+    tile: {fileID: 11400000, guid: e3a7402f2bd89de4e84b8765eb2b4534, type: 2}
+  spawnPosition: {x: -1, y: 8, z: 0}
+  boardSize: {x: 10, y: 20}
 --- !u!156049354 &289196783
 Grid:
   m_ObjectHideFlags: 0
@@ -180,6 +198,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &289196785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289196781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc73651f1a09fa345aa3bd7f57aedd18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stepDelay: 1
+  lockDelay: 0.5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1399100705}
   - component: {fileID: 1399100704}
+  - component: {fileID: 1399100706}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -425,6 +458,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1399100706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399100703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5aaff9e1a45384eb3067be5ae42a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tile: {fileID: 11400000, guid: 23ace2b5129f17344a51f3e5d23cdfbb, type: 2}
+  board: {fileID: 289196782}
+  trackingPiece: {fileID: 289196785}
 --- !u!1 &1805006701
 GameObject:
   m_ObjectHideFlags: 0
