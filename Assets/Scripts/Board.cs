@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static PieceUtils;
 public class Board : MonoBehaviour
 {
     public TetrominoData[] tetrominos;
@@ -34,12 +35,14 @@ public class Board : MonoBehaviour
 
     public void SpawnPiece()
     {
-        int random = Random.Range(0, this.tetrominos.Length);
-        TetrominoData data = this.tetrominos[random];
+        TetrominoData data = PieceUtils.RandomTetromino(this.tetrominos);
         this.activePiece.Initialize(this, this.spawnPosition, data);
-        if (IsValidPosition(this.activePiece, this.spawnPosition)) {
+        if (IsValidPosition(this.activePiece, this.spawnPosition))
+        {
             SetOnTilemap(this.activePiece);
-        } else {
+        }
+        else
+        {
             GameOver();
         }
     }
@@ -51,11 +54,7 @@ public class Board : MonoBehaviour
 
     public void SetOnTilemap(Piece piece)
     {
-        for (int i = 0; i < piece.cells.Length; i++)
-        {
-            Vector3Int location = piece.cells[i] + piece.position;
-            tilemap.SetTile(location, piece.data.tile);
-        }
+        PieceUtils.SetOnTilemap(piece, this.tilemap);
     }
 
     public void ClearLine()
