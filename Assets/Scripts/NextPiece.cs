@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NextPiece : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public TetrominoData data { get; private set; }
+    public Vector3Int[] cells { get; private set; }
+    public Vector3Int position { get; private set; }
+    public void Initialize(TetrominoData data, Vector3Int position)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        this.data = data;
+        this.position = position;
+        if (cells == null)
+        {
+            cells = new Vector3Int[this.data.cells.Length];
+        }
+        for (int i = 0; i < this.data.cells.Length; i++)
+        {
+            cells[i] = (Vector3Int)this.data.cells[i];
+        }
     }
 }
