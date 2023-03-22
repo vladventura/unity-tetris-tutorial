@@ -1,7 +1,9 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static PieceUtils;
 public class Board : MonoBehaviour
 {
+    public GameObject nextPieceDisplay;
     public TetrominoData[] tetrominos;
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
@@ -17,31 +19,54 @@ public class Board : MonoBehaviour
         }
     }
 
+    private TetrominoData nextData;
+    private NextPiece nextPiece;
+    private Tilemap nextPieceTilemap;
+
     private void Awake()
     {
         for (int i = 0; i < this.tetrominos.Length; i++)
         {
             tetrominos[i].Initialize();
         }
+        this.nextPieceTilemap = nextPieceDisplay.GetComponentInChildren<Tilemap>();
         this.tilemap = GetComponentInChildren<Tilemap>();
         this.activePiece = GetComponentInChildren<Piece>();
+        this.nextPiece = GetComponentInChildren<NextPiece>();
     }
 
     private void Start()
     {
+        GenerateNextPiece(false);
         SpawnPiece();
     }
 
+    private void GenerateNextPiece(bool shouldClear = true)
+    {
+        if (shouldClear)
+        {
+            PieceUtils.ClearOnTilemap(this.nextPiece, this.nextPieceTilemap);
+        }
+        this.nextData = PieceUtils.RandomTetromino(this.tetrominos);
+        this.nextPiece.Initialize(this.nextData, new Vector3Int(-15, 8, 0));
+        PieceUtils.SetOnTilemap(this.nextPiece, this.nextPieceTilemap);
+    }
+
+
     public void SpawnPiece()
     {
-        int random = Random.Range(0, this.tetrominos.Length);
-        TetrominoData data = this.tetrominos[random];
+        TetrominoData data = nextData;
         this.activePiece.Initialize(this, this.spawnPosition, data);
-        if (IsValidPosition(this.activePiece, this.spawnPosition)) {
+        if (IsValidPosition(this.activePiece, this.spawnPosition))
+        {
             SetOnTilemap(this.activePiece);
-        } else {
+            GenerateNextPiece();
+        }
+        else
+        {
             GameOver();
         }
+        Debug.Log(nextData.tetromino);
     }
 
     private void GameOver()
@@ -51,11 +76,7 @@ public class Board : MonoBehaviour
 
     public void SetOnTilemap(Piece piece)
     {
-        for (int i = 0; i < piece.cells.Length; i++)
-        {
-            Vector3Int location = piece.cells[i] + piece.position;
-            tilemap.SetTile(location, piece.data.tile);
-        }
+        PieceUtils.SetOnTilemap(piece, this.tilemap);
     }
 
     public void ClearLine()
@@ -111,11 +132,7 @@ public class Board : MonoBehaviour
 
     public void ClearOnTilemap(Piece piece)
     {
-        for (int i = 0; i < piece.cells.Length; i++)
-        {
-            Vector3Int location = piece.cells[i] + piece.position;
-            tilemap.SetTile(location, null);
-        }
+        PieceUtils.ClearOnTilemap(piece, this.tilemap);
     }
 
     public bool IsValidPosition(Piece piece, Vector3Int position)
