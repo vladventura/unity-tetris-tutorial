@@ -16,4 +16,29 @@ public static class PieceUtils
             tilemap.SetTile(location, piece.data.tile);
         }
     }
+    public static void SetOnTilemap(NextPiece piece, Tilemap tilemap)
+    {
+        for (int i = 0; i < piece.cells.Length; i++)
+        {
+            Vector3Int location = piece.cells[i] + piece.position;
+            tilemap.SetTile(location, piece.data.tile);
+        }
+    }
+
+    public static void ClearOnTilemap(Piece piece, Tilemap tilemap)
+    {
+        for (int i = 0; i < piece.cells.Length; i++)
+        {
+            Vector3Int location = piece.cells[i] + piece.position;
+            tilemap.SetTile(location, null);
+        }
+    }
+    public static void ClearOnTilemap(NextPiece piece, Tilemap tilemap)
+    {
+        for (int i = 0; i < piece.cells.Length; i++)
+        {
+            Vector3Int location = piece.cells[i] + piece.position;
+            tilemap.SetTile(location, null);
+        }
+    }
 }
